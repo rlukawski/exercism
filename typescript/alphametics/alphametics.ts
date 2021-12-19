@@ -43,9 +43,7 @@ function generatePermutations(result:Letters[],dictionary:Letters,idx:number = 0
     dictionary[key] = list[np];
     
     if( idx<Object.keys(dictionary).length -1 ) {
-      let list2 = [...list];
-      list2.splice(Number(np),1);
-      generatePermutations(result,dictionary,idx+1,list2);
+      generatePermutations(result,dictionary,idx+1,list.filter(item => item !== list[np]));
     } else {
       result.push({...dictionary});
     }
@@ -60,11 +58,7 @@ export function solve(puzzle: string): Letters {
   let wordsRight:string[] = sides[1].split('+');
 
   let letters = puzzle.replace(/[^A-Z]/g,'');
-  let digit = 0;
   letters.split('').forEach(letter => {dictionary[letter] = 0});
-  for(let letter in dictionary) {
-    dictionary[letter] = digit++;
-  }
   let result:Letters[] = [];
   generatePermutations(result,dictionary);
   // console.log(Object.keys(result).length);
